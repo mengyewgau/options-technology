@@ -1,7 +1,7 @@
 import numpy as np
 import random
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Dense, SimpleRNN
 from tensorflow.keras.optimizers import Adam
 
 class DQN:
@@ -19,8 +19,8 @@ class DQN:
     def _build_model(self):
         # Neural Net for Deep-Q learning Model
         model = Sequential()
-        model.add(Dense(24, input_dim=self.state_size, activation='relu'))
-        model.add(Dense(24, activation='relu'))
+        model.add(SimpleRNN(24, input_shape=(1, self.state_size), activation='relu', return_sequences=True))
+        model.add(SimpleRNN(24, activation='relu'))
         model.add(Dense(self.action_size, activation='linear'))
         model.compile(loss='mse', optimizer=Adam(self.learning_rate))
         return model
